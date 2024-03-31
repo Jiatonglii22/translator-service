@@ -1,7 +1,5 @@
 # Install Dependencies
 
-#initialize build
-#trigger 2
 
 You need to install `flask` and `pytest` to run this application.
 
