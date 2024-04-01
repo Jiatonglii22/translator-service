@@ -4,42 +4,27 @@ import os
 
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 
-chat_model = genai.GenerativeModel('gemini-1.0-pro-latest')
+model = genai.GenerativeModel('gemini-1.0-pro-latest')
 
-def get_translation(post: str) -> str:
-    parameters = {
-        "temperature": 0.7,  # Temperature controls the degree of randomness in token selection.
-        "max_output_tokens": 256,  # Token limit determines the maximum amount of text output.
-    }
-
-     # ---------------- YOUR CODE HERE ---------------- #
-    context = "Translate the following sentence from the detected language to English" # TODO: Insert context
-    chat = chat_model.start_chat(context=context)
-    response = chat.send_message(post, **parameters)
+def get_translation(content: str) -> str:
+    response = model.generate_content("translate " + content + " to English")
     return response.text
 
-def get_language(post: str) -> str:
-    parameters = {
-        "temperature": 0.7,  # Temperature controls the degree of randomness in token selection.
-        "max_output_tokens": 256,  # Token limit determines the maximum amount of text output.
-    }
+def get_language(content: str) -> str:
 
-     # ---------------- YOUR CODE HERE ---------------- #
-    context = "Return in one word the language the prompt is written in" # TODO: Insert context
-    chat = chat_model.start_chat(context=context)
-    response = chat.send_message(post, **parameters)
+    response = model.generate_content("get the language of " + content)
     return response.text
 
-def translate_content(post: str) -> tuple[bool, str]:
-  language_result = get_language(post)
-  if len(get_language(post).split(" ")) != 1:
-    return (False, post)
+def translate_content(content: str) -> tuple[bool, str]:
+#   language_result = get_language(content)
+#   if len(get_language(content).split(" ")) != 1:
+#     return (False, content)
 
   #language result is one word
-  is_english = get_language(post) == "English"
-  translation = get_translation(post)
-  if get_language(translation) != "English":
-    translation = post #invalid input is returned to user
+  is_english = get_language(content) == "English"
+  translation = get_translation(content)
+#   if get_language(translation) != "English":
+    # translation = content #invalid input is returned to user
 
   return is_english, translation
 
