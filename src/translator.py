@@ -8,23 +8,25 @@ model = genai.GenerativeModel('gemini-1.0-pro-latest')
 
 def get_translation(content: str) -> str:
     response = model.generate_content("translate " + content + " to English")
+    print(response.text)
     return response.text
 
 def get_language(content: str) -> str:
 
-    response = model.generate_content("get the language of " + content)
+    response = model.generate_content("Please identify the language of the following sentence: " + content )
+    print(response.text)
     return response.text
 
 def translate_content(content: str) -> tuple[bool, str]:
-#   language_result = get_language(content)
-#   if len(get_language(content).split(" ")) != 1:
-#     return (False, content)
+  # empty content
+  if len(content) == 0: 
+     return False, ""
 
   #language result is one word
   is_english = get_language(content) == "English"
   translation = get_translation(content)
-#   if get_language(translation) != "English":
-    # translation = content #invalid input is returned to user
+  if get_language(translation) != "English":
+    translation = content #invalid input is returned to user
 
   return is_english, translation
 
