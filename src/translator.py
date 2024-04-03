@@ -2,6 +2,9 @@
 import google.generativeai as genai
 import os
 
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/jiatongli222/.config/gcloud/application_default_credentials.json"
+
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 
 model = genai.GenerativeModel('gemini-1.0-pro-latest')
