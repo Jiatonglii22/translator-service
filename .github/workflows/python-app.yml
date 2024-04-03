@@ -15,6 +15,9 @@ permissions:
 jobs:
   build:
 
+    env:
+      GOOGLE_API_KEY : ${{ secrets.GOOGLE_API_KEY }}
+
     runs-on: ubuntu-latest
 
     steps:
