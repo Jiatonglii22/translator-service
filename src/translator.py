@@ -22,13 +22,24 @@ def translate_content(content: str) -> tuple[bool, str]:
   if len(content) == 0: 
      return False, ""
 
-  #language result is one word
+  # longer than one word
+  if len((get_language(content)).split(" ")) != 1: 
+     return False, content
+  
+  #language is one word
   is_english = get_language(content) == "English"
-  translation = get_translation(content)
-  if get_language(translation) != "English":
-    translation = content #invalid input is returned to user
+  #if English, return default content
+  if is_english: 
+     return True, content
+  else:
+    #not english, get translation
+    translation = get_translation(content)
+    print(translation)
+    if get_language(translation) != "English":
+        print(get_language(translation))
+        translation = content #invalid input is returned to user
 
-  return is_english, translation
+    return is_english, translation
 
 # def translate_content(content: str) -> tuple[bool, str]:
 #     if content == "这是一条中文消息":
